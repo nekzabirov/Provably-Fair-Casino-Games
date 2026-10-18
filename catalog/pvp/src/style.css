@@ -1,0 +1,66 @@
+@import './styles/tokens.css';
+
+/**
+ * PvP Arena theme.
+ *
+ * The chrome comes from the shared tokens; PvP's own identity is one accent -
+ * gold - carried by the pot, the striker, the countdown and the primary action.
+ * Nothing else on the screen is allowed to be gold, so gold always means
+ * "this is the money and this is the moment".
+ *
+ * The seat hues are data, not decoration: each fighter's wedge, rail chip and
+ * avatar ring share one hue so a player can match the arc under the striker to
+ * the chip in the rail. Gold is deliberately absent from that ramp so a seat
+ * colour can never be mistaken for the accent.
+ *
+ * The --tg-* names below are the previous Telegram-palette variables, kept as
+ * aliases onto the tokens so every component reads from one source.
+ */
+:root {
+  /* The one accent. */
+  --arena-gold:       var(--c-gold);
+  --arena-gold-press: #E0A81F;
+  --arena-gold-soft:  var(--c-gold-soft);
+  --arena-glow:       rgba(255, 197, 61, 0.22);
+  --arena-ray:        rgba(255, 197, 61, 0.09); /* victory rays; anything heavier eats the copy */
+  --arena-ink:        #2A1C00; /* label colour on a gold fill: 8:1 on #FFC53D */
+
+  /* Seat identity ramp, read by both the DOM rail and the Pixi arena. */
+  /* Ordered so consecutive seats land far apart in hue: seats are handed out in
+     join order, and neighbours on the wheel must never be two shades of the
+     same colour. */
+  --seat-1: #FF5B6A;
+  --seat-2: #18C8D4;
+  --seat-3: #FFA23F;
+  --seat-4: #9B7BFF;
+  --seat-5: #35D07F;
+  --seat-6: #FF6FB3;
+  --seat-7: #4A90FF;
+  --seat-8: #C056FF;
+  /* The folded long tail: deliberately colourless, it is a crowd not a player. */
+  --seat-horde: #39465A;
+
+  --tg-bg:        var(--c-bg);
+  --tg-bg-deep:   var(--c-bg-2);
+  --tg-surface:   var(--c-surface);
+  --tg-surface-2: var(--c-surface-2);
+  --tg-header:    var(--c-bg-2);
+  --tg-text:      var(--c-text);
+  --tg-hint:      var(--c-text-2);
+  --tg-link:      var(--c-brand);
+  --tg-divider:   var(--c-line);
+  --tg-danger:    var(--c-lose);
+  --tg-win:       var(--c-win);
+  --tg-radius:    var(--r-ctl);
+  --accent:       var(--arena-gold);
+  --accent-press: var(--arena-gold-press);
+}
+
+/* Screen-wide impact jolt, toggled by GameScreen on lock / landing. */
+@keyframes screen-shake {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-4px, 2px, 0); }
+  40% { transform: translate3d(5px, -2px, 0); }
+  60% { transform: translate3d(-3px, -3px, 0); }
+  80% { transform: translate3d(3px, 2px, 0); }
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  One JSON line per event, to stdout. Field names are fixed so logs can be queried by field
+  rather than by human-readable text: ts, level, logger, msg, stack, plus service and env, plus
+  anything added through MDC or structured arguments. Text changes between releases; fields do not.
+
+  `service` and `env` are set once here instead of on every log call. `env` comes from the
+  OPERATOR environment variable (default "aggregator"); LOG_LEVEL sets the root level.
+-->
+<configuration>
+
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timestampPattern>yyyy-MM-dd'T'HH:mm:ss.SSSXXX</timestampPattern>
+            <fieldNames>
+                <timestamp>ts</timestamp>
+                <level>level</level>
+                <message>msg</message>
+                <logger>logger</logger>
+                <thread>[ignore]</thread>
+                <levelValue>[ignore]</levelValue>
+                <version>[ignore]</version>
+                <stackTrace>stack</stackTrace>
+            </fieldNames>
+            <customFields>{"service":"tongame","env":"${OPERATOR:-aggregator}"}</customFields>
+            <!-- A stack longer than this is noise rather than diagnosis, and it crowds out neighbouring lines. -->
+            <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                <maxLength>4096</maxLength>
+                <rootCauseFirst>true</rootCauseFirst>
+                <exclude>^sun\.reflect\..*</exclude>
+                <exclude>^java\.util\.concurrent\..*</exclude>
+                <exclude>^kotlinx\.coroutines\..*</exclude>
+            </throwableConverter>
+        </encoder>
+    </appender>
+
+    <!--
+      Asynchronous, but never dropping errors: discardingThreshold=0 forbids discarding WARN/ERROR
+      when the queue is full - exactly the lines needed when the service is struggling.
+    -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>8192</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>false</includeCallerData>
+        <appender-ref ref="JSON"/>
+    </appender>
+
+    <root level="${LOG_LEVEL:-INFO}">
+        <appender-ref ref="ASYNC"/>
+    </root>
+
+    <logger name="io.netty" level="WARN"/>
+    <logger name="io.grpc" level="WARN"/>
+    <logger name="io.grpc.netty" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <logger name="Exposed" level="WARN"/>
+    <logger name="org.jetbrains.exposed" level="WARN"/>
+
+</configuration>

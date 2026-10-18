@@ -1,0 +1,34 @@
+@import './styles/tokens.css';
+
+/**
+ * Mines theme.
+ *
+ * The chrome comes entirely from the shared tokens; only the gem/mine pair is
+ * game-specific. The --tg-* names below are the previous Telegram-palette
+ * variables, kept as aliases onto the new tokens so every component reads from
+ * one source while they are migrated one at a time.
+ */
+:root {
+  /* Cell identity: cyan gem reads as "safe", and it is the only hue on the
+     board that is not the brand blue, so a revealed gem cannot be mistaken for
+     a control. The mine reuses the semantic loss colour. */
+  --gem:       #35D0E8;
+  --gem-soft:  rgba(53, 208, 232, 0.16);
+  --mine:      var(--c-lose);
+  --mine-soft: var(--c-lose-soft);
+
+  --tg-bg:        var(--c-bg);
+  --tg-bg-deep:   var(--c-bg-2);
+  --tg-surface:   var(--c-surface);
+  --tg-surface-2: var(--c-surface-2);
+  --tg-header:    var(--c-bg-2);
+  --tg-text:      var(--c-text);
+  --tg-hint:      var(--c-text-2);
+  --tg-link:      var(--c-brand);
+  --tg-divider:   var(--c-line);
+  --tg-danger:    var(--c-lose);
+  --tg-win:       var(--c-win);
+  --tg-radius:    var(--r-ctl);
+  --accent:       var(--c-brand);
+  --accent-press: var(--c-brand-press);
+}

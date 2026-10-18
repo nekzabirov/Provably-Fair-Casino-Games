@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <!-- The type is self-hosted and subset (49KB, latin + cyrillic, 100-900). A
+         Google Fonts <link> would be a render-blocking third-party round trip on
+         a cold Telegram WebView, which is exactly where this game is opened. -->
+    <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin />
+    <title>PvP Arena</title>
+    <style>
+      @font-face {
+        font-family: 'Geist';
+        src: url('/fonts/geist-var.woff2') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      /* Painted before the JS bundle parses, so there is never a blank screen. */
+      body {
+        margin: 0;
+        background: #0c131c;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        background:
+          radial-gradient(circle at 50% 30%, rgba(255, 210, 63, 0.1), transparent 45%),
+          radial-gradient(circle at 50% 35%, #16202c 0%, #0c131c 45%, #070c13 100%);
+        opacity: 1;
+        transition: opacity 0.45s ease;
+        will-change: opacity;
+      }
+      #splash .wheelwrap {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        filter: drop-shadow(0 0 30px rgba(255, 210, 63, 0.35));
+      }
+      #splash .wheel {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: conic-gradient(
+          #ff5b6a 0deg 51deg,
+          #ffa23f 51deg 103deg,
+          #9b7bff 103deg 154deg,
+          #35d07f 154deg 206deg,
+          #18c8d4 206deg 257deg,
+          #4a90ff 257deg 309deg,
+          #ff6fb3 309deg 360deg
+        );
+        box-shadow:
+          0 0 0 9px #16202c,
+          0 0 0 12px rgba(255, 210, 63, 0.25),
+          0 0 34px rgba(255, 210, 63, 0.35);
+        animation: spin 1.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      }
+      #splash .hub {
+        position: absolute;
+        inset: 42px;
+        border-radius: 50%;
+        background: #111a24;
+        box-shadow: inset 0 0 0 2px rgba(255, 210, 63, 0.3);
+      }
+      #splash .ptr {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        z-index: 1;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 18px solid #ffd23f;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      #splash .word {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 30px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #ffffff;
+        text-shadow: 0 0 24px rgba(255, 210, 63, 0.4);
+      }
+      #splash .word b {
+        color: #ffd23f;
+      }
+      #splash .track {
+        width: min(64vw, 300px);
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.12);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(255, 210, 63, 0.3);
+      }
+      #splash .fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #e0a800, #ffd23f);
+        box-shadow: 0 0 12px rgba(255, 210, 63, 0.6);
+        transition: width 0.25s ease;
+      }
+      #splash .label {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #ffffff;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <div class="wheelwrap">
+        <div class="ptr"></div>
+        <div class="wheel"></div>
+        <div class="hub"></div>
+      </div>
+      <div class="word">PvP <b>Arena</b></div>
+      <div class="track"><div class="fill" id="splash-fill"></div></div>
+      <div class="label">Entering the arena…</div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

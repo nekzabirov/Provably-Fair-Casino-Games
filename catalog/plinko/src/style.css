@@ -1,0 +1,54 @@
+@import './styles/tokens.css';
+
+/**
+ * Plinko theme.
+ *
+ * The chrome comes entirely from the shared tokens. What is game-specific here
+ * is the paytable ramp: every multiplier chip under the board is tinted by what
+ * it pays, so the shape of the risk curve is readable before a single ball
+ * drops. The ramp runs loss red -> neutral amber -> win green, with gold
+ * reserved for the jackpot edges.
+ *
+ * These stops are plain hex on purpose: `theme.ts` reads them straight into the
+ * Pixi scene, so the canvas and the chrome can never drift apart.
+ *
+ * The --tg-* names below are the previous Telegram-palette variables, kept as
+ * aliases onto the new tokens so every component reads from one source while
+ * they are migrated one at a time.
+ */
+:root {
+  /* Paytable ramp, worst to best. Cut points live in the scene. */
+  --pay-0: #E5484D;
+  --pay-1: #F2683C;
+  --pay-2: #E9B23C;
+  --pay-3: #9BCB3B;
+  --pay-4: #2ED47A;
+  --pay-5: #FFC53D;
+
+  /* Chip text is dark ink on a saturated fill: white sits near 2.5:1 on the
+     amber and lime stops and fails AA, dark ink clears 8:1 on all six. */
+  --pay-ink: #06111B;
+
+  /* Board. The peg is a cool grey-blue so it stays furniture, and the ball is
+     gold so it never reads as one more peg while it falls. */
+  --peg:       #6E8AA8;
+  --peg-shade: #35485C;
+  --peg-lit:   #EAF4FF;
+  --ball:      #FFC53D;
+  --ball-lit:  #FFF0C2;
+
+  --tg-bg:        var(--c-bg);
+  --tg-bg-deep:   var(--c-bg-2);
+  --tg-surface:   var(--c-surface);
+  --tg-surface-2: var(--c-surface-2);
+  --tg-header:    var(--c-bg-2);
+  --tg-text:      var(--c-text);
+  --tg-hint:      var(--c-text-2);
+  --tg-link:      var(--c-brand);
+  --tg-divider:   var(--c-line);
+  --tg-danger:    var(--c-lose);
+  --tg-win:       var(--c-win);
+  --tg-radius:    var(--r-ctl);
+  --accent:       var(--c-brand);
+  --accent-press: var(--c-brand-press);
+}

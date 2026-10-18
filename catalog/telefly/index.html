@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/logo.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin />
+    <title>TeleFly</title>
+    <style>
+      /* Painted before the JS bundle parses, so there is never a blank screen. */
+      body {
+        margin: 0;
+        background: #0B1017;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        background: radial-gradient(circle at 50% 35%, #151E2A 0%, #0F1620 45%, #0B1017 100%);
+        opacity: 1;
+        transition: opacity 0.45s ease;
+        will-change: opacity;
+      }
+      #splash.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #splash .logo {
+        width: min(46vw, 200px);
+        height: auto;
+        filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.45));
+        animation: float 2.6s ease-in-out infinite;
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(-4deg); }
+        50% { transform: translateY(-10px) rotate(2deg); }
+      }
+      #splash .track {
+        width: min(64vw, 300px);
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.16);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+      }
+      #splash .fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 99px;
+        background: #2A9FE8;
+        box-shadow: 0 0 12px rgba(42, 159, 232, 0.6);
+        transition: width 0.25s ease;
+      }
+      #splash .label {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 14px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #EDF2F7;
+        opacity: 0.75;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <img class="logo" src="/logo.svg" alt="TeleFly" fetchpriority="high" />
+      <div class="track"><div class="fill" id="splash-fill"></div></div>
+      <div class="label">TeleFly</div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

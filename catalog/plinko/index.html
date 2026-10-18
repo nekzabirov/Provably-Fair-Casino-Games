@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <!-- The type is self-hosted and subset (49KB, latin + cyrillic, 100-900). A
+         Google Fonts <link> would be a render-blocking third-party round trip on
+         a cold Telegram WebView, which is exactly where this game is opened. -->
+    <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin />
+    <title>Plinko</title>
+    <style>
+      @font-face {
+        font-family: 'Geist';
+        src: url('/fonts/geist-var.woff2') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      /* Painted before the JS bundle parses, so there is never a blank screen. */
+      body {
+        margin: 0;
+        background: #17212b;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        background: radial-gradient(circle at 50% 35%, #232e3c 0%, #17212b 45%, #0e1621 100%);
+        opacity: 1;
+        transition: opacity 0.45s ease;
+        will-change: opacity;
+      }
+      #splash.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      /* A tiny CSS pegboard: three rows of pegs and a ball bouncing down. */
+      #splash .board {
+        position: relative;
+        width: 132px;
+        height: 110px;
+      }
+      #splash .peg {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #2aabee;
+        box-shadow: 0 0 10px rgba(42, 171, 238, 0.7);
+      }
+      #splash .ball {
+        position: absolute;
+        left: 62px;
+        top: -6px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ffffff, #c9cbc6 70%);
+        box-shadow: 0 0 14px rgba(42, 171, 238, 0.8);
+        animation: fall 1.6s cubic-bezier(0.45, 0, 0.6, 1) infinite;
+      }
+      @keyframes fall {
+        0% {
+          transform: translate(0, 0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        30% {
+          transform: translate(-16px, 34px);
+        }
+        55% {
+          transform: translate(4px, 66px);
+        }
+        80% {
+          transform: translate(-22px, 98px);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-22px, 112px);
+          opacity: 0;
+        }
+      }
+      #splash .word {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        color: #ffffff;
+        text-shadow:
+          0 0 24px rgba(42, 171, 238, 0.55),
+          0 4px 18px rgba(0, 0, 0, 0.45);
+      }
+      #splash .word b {
+        color: #2aabee;
+        text-shadow: 0 0 24px rgba(42, 171, 238, 0.65);
+      }
+      #splash .track {
+        width: min(64vw, 300px);
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(42, 171, 238, 0.3);
+      }
+      #splash .fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #2aabee, #62bcf9);
+        box-shadow: 0 0 12px rgba(42, 171, 238, 0.6);
+        transition: width 0.25s ease;
+      }
+      #splash .label {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 14px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #708499;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <div class="board">
+        <!-- pegs: 3 rows, widening -->
+        <div class="peg" style="left: 54px; top: 28px"></div>
+        <div class="peg" style="left: 78px; top: 28px"></div>
+        <div class="peg" style="left: 42px; top: 60px"></div>
+        <div class="peg" style="left: 66px; top: 60px"></div>
+        <div class="peg" style="left: 90px; top: 60px"></div>
+        <div class="peg" style="left: 30px; top: 92px"></div>
+        <div class="peg" style="left: 54px; top: 92px"></div>
+        <div class="peg" style="left: 78px; top: 92px"></div>
+        <div class="peg" style="left: 102px; top: 92px"></div>
+        <div class="ball"></div>
+      </div>
+      <div class="word">PL<b>I</b>NKO</div>
+      <div class="track"><div class="fill" id="splash-fill"></div></div>
+      <div class="label">Loading…</div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

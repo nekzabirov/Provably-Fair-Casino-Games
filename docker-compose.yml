@@ -1,0 +1,146 @@
+# Brings up the engine, the example operator, every game web client, and the
+# engine's datastores. Everything is built from source inside Docker:
+#
+#   docker compose up --build
+#
+# Redis is included because the engine needs it (session cache), not only Postgres.
+# The brand-seed service registers the demo operator (demo-operator / demo-secret)
+# once the engine has created its schema. See README.md for opening a game.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: gameengine
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d gameengine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  engine:
+    build:
+      context: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/gameengine
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_URL: redis://redis:6379
+      SERVER_PORT: "8080"
+    ports:
+      - "8080:8080"
+
+  # Registers the demo brand once the engine has created the schema, so the engine
+  # can call the example operator back. Idempotent; exits when done.
+  brand-seed:
+    image: postgres:16-alpine
+    depends_on:
+      postgres:
+        condition: service_healthy
+      engine:
+        condition: service_started
+    environment:
+      PGPASSWORD: postgres
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        until psql -h postgres -U postgres -d gameengine -v ON_ERROR_STOP=1 -c "INSERT INTO brands (identity, secret, webhook_url) VALUES ('demo-operator', 'demo-secret', 'http://operator:9090/webhook') ON CONFLICT (identity) DO NOTHING"; do
+          echo "waiting for the engine schema..."
+          sleep 2
+        done
+    restart: "no"
+
+  operator:
+    build:
+      context: ./example/operator
+    depends_on:
+      - engine
+    environment:
+      OPERATOR_PORT: "9090"
+      OPERATOR_IDENTITY: demo-operator
+      OPERATOR_SECRET: demo-secret
+      ENGINE_URL: http://engine:8080
+      # Minor units (TON in nanoton); generous balance for testing.
+      OPERATOR_START_BALANCE: "1000000000000"
+    ports:
+      - "9090:9090"
+
+  # Game web clients. Each bundle talks to the engine on its own page origin
+  # (/ws/<game>, /api/v1/...).
+  # Each client's nginx serves the bundle and proxies /ws/ and /api/ to the engine
+  # (ENGINE_URL, default http://engine:8080).
+  mines-web:
+    build:
+      context: ./catalog/mines
+    depends_on:
+      - engine
+    ports:
+      - "8082:80"
+
+  # Lucky Cups (engine socket /ws/shell).
+  lucky-web:
+    build:
+      context: ./catalog/lucky
+    depends_on:
+      - engine
+    ports:
+      - "8083:80"
+
+  # TeleFly (crash).
+  telefly-web:
+    build:
+      context: ./catalog/telefly
+    depends_on:
+      - engine
+    ports:
+      - "8084:80"
+
+  plinko-web:
+    build:
+      context: ./catalog/plinko
+    depends_on:
+      - engine
+    ports:
+      - "8085:80"
+
+  # PvP jackpot wheel.
+  pvp-web:
+    build:
+      context: ./catalog/pvp
+    depends_on:
+      - engine
+    ports:
+      - "8086:80"
+
+  # Lottery 6/49 (REST /api/v1/lottery).
+  lottery-web:
+    build:
+      context: ./catalog/lottery
+    depends_on:
+      - engine
+    ports:
+      - "8087:80"
+
+volumes:
+  pgdata:

@@ -1,0 +1,177 @@
+/**
+ * TONGame design tokens — shared across every catalog client.
+ *
+ * The six games are independent Vite apps with separate Docker build contexts, so
+ * this file is duplicated per game rather than imported from a shared package:
+ * a path outside `catalog/<game>/` would not exist inside the image build.
+ * Keep the copies byte-identical; per-game divergence goes in `theme.css`.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Surfaces ──────────────────────────────────────────────────────────────
+     Cool near-black ramp. Never pure #000: it flattens depth on OLED phones. */
+  --c-bg:        #0B1017;
+  --c-bg-2:      #0F1620;
+  --c-surface:   #151E2A;
+  --c-surface-2: #1D2836;
+  --c-line:      rgba(255, 255, 255, 0.07);
+  --c-line-2:    rgba(255, 255, 255, 0.13);
+
+  /* ── Text ─────────────────────────────────────────────────────────────────
+     --c-text-2 is the lightest secondary that still clears WCAG AA (4.5:1) on
+     --c-surface; --c-text-3 only clears AA at >=12px/600, so it is labels only. */
+  --c-text:   #EDF2F7;
+  --c-text-2: #93A4B8;
+  --c-text-3: #6B7C91;
+
+  /* ── Brand and semantics ──────────────────────────────────────────────────
+     One brand accent for the whole catalog (TON blue). Action colour carries
+     meaning: brand = commit money, win = take money back, lose = round lost. */
+  --c-brand:       #2A9FE8;
+  --c-brand-press: #1B84C7;
+  --c-brand-soft:  rgba(42, 159, 232, 0.14);
+  --c-win:         #2ED47A;
+  --c-win-press:   #23AC62;
+  --c-win-soft:    rgba(46, 212, 122, 0.14);
+  --c-lose:        #FF5A65;
+  --c-lose-soft:   rgba(255, 90, 101, 0.14);
+  --c-gold:        #FFC53D;
+  --c-gold-soft:   rgba(255, 197, 61, 0.14);
+
+  /* ── Radii ────────────────────────────────────────────────────────────────
+     Three values, one rule: pills for status, 14px for anything pressable or
+     card-like, 22px for surfaces that slide over the game. Nothing else. */
+  --r-chip:  999px;
+  --r-ctl:   14px;
+  --r-sheet: 22px;
+
+  /* ── Elevation ────────────────────────────────────────────────────────────
+     Tinted, never pure black. The inset hairline is what reads as a physical
+     top edge on a dark surface; the drop shadow alone does not. */
+  --sh-1:   inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(3, 7, 12, 0.5);
+  --sh-2:   0 10px 30px rgba(3, 7, 12, 0.55);
+  --sh-cta: 0 6px 18px rgba(42, 159, 232, 0.3);
+  --sh-win: 0 6px 18px rgba(46, 212, 122, 0.3);
+
+  /* ── Type ─────────────────────────────────────────────────────────────────
+     Geist Variable, self-hosted and subset to latin + cyrillic (player names in
+     PvP can be Cyrillic). Mono is for seeds and hashes only, never for money. */
+  --f-sans: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --f-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ── Motion ───────────────────────────────────────────────────────────────
+     Built-in CSS easings are too weak to read as intentional at these speeds.
+     Enter/exit uses --e-out: it moves at the instant the finger lifts, which is
+     exactly when the player is looking. Never ease-in on a control. */
+  --e-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --e-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --e-sheet:  cubic-bezier(0.32, 0.72, 0, 1);
+  --d-press: 120ms;
+  --d-pop:   180ms;
+  --d-sheet: 320ms;
+
+  /* ── Layout ───────────────────────────────────────────────────────────────
+     Games render inside a cross-origin iframe in the host page, so a host SDK
+     (e.g. the Telegram WebApp SDK) is not reachable here and 100dvh already resolves to the frame. */
+  --pad-x: 14px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* Smallest comfortable thumb target. Nothing pressable goes below this. */
+  --tap: 46px;
+}
+
+/* ── Fonts ──────────────────────────────────────────────────────────────────
+   One variable file per family covers 100-900, so weight changes cost no extra
+   request. `swap` keeps first paint instant on a cold Telegram WebView. */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/geist-var.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/geist-mono-var.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--f-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  /* Disable zoom / double-tap / pull-to-refresh and text autosizing. */
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Keyboard focus still needs to be visible for the few players on a desktop
+   Telegram client; :focus-visible never fires on touch, so this costs nothing. */
+button:focus-visible {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
+}
+
+/* ── Utilities ──────────────────────────────────────────────────────────────
+   `.press` is the one press-feedback rule in the system. Scale, not brightness:
+   a brightness shift reads as a colour bug, a scale reads as the surface
+   physically taking the touch. */
+.press {
+  transition: transform var(--d-press) var(--e-out);
+}
+
+.press:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* Money and multipliers must not reflow while they count. Proportional digits
+   make a ticking balance jitter horizontally, which reads as instability. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press {
+    transition: none;
+  }
+
+  .press:not(:disabled):active {
+    transform: none;
+  }
+}

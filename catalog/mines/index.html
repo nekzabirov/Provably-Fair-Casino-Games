@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:," />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <!-- The type is self-hosted and subset (49KB, latin + cyrillic, 100-900). A
+         Google Fonts <link> would be a render-blocking third-party round trip on
+         a cold Telegram WebView, which is exactly where this game is opened. -->
+    <link
+      rel="preload"
+      href="/fonts/geist-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <title>Mines</title>
+    <style>
+      /* Painted before the JS bundle parses, so there is never a blank screen. */
+      @font-face {
+        font-family: 'Geist';
+        src: url('/fonts/geist-var.woff2') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      body {
+        margin: 0;
+        background: #0b1017;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        background: radial-gradient(circle at 50% 38%, #151e2a 0%, #0b1017 52%, #070c12 100%);
+        opacity: 1;
+        transition: opacity 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        will-change: opacity;
+      }
+      #splash.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #splash .wordmark {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #edf2f7;
+        line-height: 1;
+      }
+      #splash .wordmark span {
+        color: #35d0e8;
+      }
+      #splash .track {
+        width: min(58vw, 260px);
+        height: 5px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+      }
+      #splash .fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        background: #35d0e8;
+        transition: width 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      #splash .label {
+        font-family: 'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #6b7c91;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <div class="wordmark">mine<span>stars</span></div>
+      <div class="track"><div class="fill" id="splash-fill"></div></div>
+      <div class="label">Loading</div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

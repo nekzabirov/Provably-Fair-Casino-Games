@@ -1,0 +1,64 @@
+@import './styles/tokens.css';
+
+/**
+ * Lucky Cups theme.
+ *
+ * The whole screen is a rendered 3D scene: a hooded dealer behind three copper
+ * cups on a wooden table, lit warm. The shared catalog accent (TON blue) sits on
+ * top of that as a foreign object, so this game overrides it with a hue taken
+ * straight from the cups. Everything else - surfaces, text, motion, radii -
+ * still comes from the shared tokens.
+ *
+ * The --tg-* names below are the previous Telegram-palette variables, kept as
+ * aliases onto the new tokens so components that have not been rewritten yet
+ * still read from one source.
+ */
+:root {
+  /* Copper: sampled off the lit face of a cup. This is the game's accent, and
+     the only saturated hue in the chrome, so the primary action reads as part
+     of the scene rather than pasted over it. */
+  --copper:       #E08A3C;
+  --copper-press: #BE6E26;
+  --copper-soft:  rgba(224, 138, 60, 0.16);
+  /* Ink used on top of copper: dark-on-bright clears AA by a wide margin where
+     white-on-copper would sit near 2:1. */
+  --copper-ink:   #1A0E03;
+  --sh-copper:    0 6px 18px rgba(224, 138, 60, 0.28);
+
+  /* Warm near-black ramp. The shared surfaces are cool navy, which reads as a
+     cold slab bolted under a warm table; these keep the same lightness steps
+     and only shift the hue so the chrome belongs to the scene. */
+  --warm-bg:        #130E0A;
+  --warm-bg-2:      #191310;
+  --warm-surface:   #241B15;
+  --warm-surface-2: #30251C;
+  /* Translucent panel fill for controls floating over the render. */
+  --warm-veil:      rgba(25, 19, 16, 0.74);
+
+  --tg-bg:        var(--warm-bg);
+  --tg-bg-deep:   var(--warm-bg-2);
+  --tg-surface:   var(--warm-surface);
+  --tg-surface-2: var(--warm-surface-2);
+  --tg-header:    var(--warm-bg-2);
+  --tg-text:      var(--c-text);
+  --tg-hint:      var(--c-text-2);
+  --tg-link:      var(--copper);
+  --tg-divider:   var(--c-line);
+  --tg-danger:    var(--c-lose);
+  --tg-win:       var(--c-win);
+  --tg-radius:    var(--r-ctl);
+  --accent:       var(--copper);
+  --accent-press: var(--copper-press);
+}
+
+/* The page behind the canvas is only ever visible for a frame before the render
+   starts; warm here so that frame does not flash cool. */
+body {
+  background: var(--warm-bg);
+}
+
+/* Keyboard focus rings default to the catalog brand; this game's focus colour
+   is its own accent. */
+button:focus-visible {
+  outline-color: var(--copper);
+}

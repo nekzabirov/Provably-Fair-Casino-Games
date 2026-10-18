@@ -1,0 +1,140 @@
+@import './styles/tokens.css';
+
+/**
+ * Lottery theme.
+ *
+ * Lottery is the one game in the catalog that carries its own identity: the
+ * classic deep-red-and-gold draw hall, with glossy lottery balls. The shared
+ * tokens still own the mechanics the whole catalog agrees on (radii scale, motion
+ * curves, tap sizes, tabular figures, safe areas); only the colour world is
+ * overridden here. The prize is real (prizePool for a 6/6 match) and gold is
+ * reserved for it, so gold never appears on anything that is not the jackpot or a
+ * matched number.
+ */
+:root {
+  /* ── Red hall ────────────────────────────────────────────────────────────── */
+  --lot-edge:   #240406; /* maroon-black, screen vignette + deepest panels */
+  --lot-deep:   #4A0A0D;
+  --lot-red:    #8E1216; /* mid red panel */
+  --lot-red-2:  #B5171C; /* lifted red, chips / active */
+  --lot-red-3:  #E23A2E; /* hot red for a ball's lit face */
+  --lot-press:  #7A0E12;
+  --lot-line:   rgba(255, 210, 190, 0.14);
+  --lot-line-2: rgba(255, 210, 190, 0.26);
+
+  /* ── Gold (prize only) ───────────────────────────────────────────────────── */
+  --gold:       #F4C842;
+  --gold-hi:    #FFE8A6;
+  --gold-2:     #C9962A;
+  --gold-deep:  #8C5E12;
+  --gold-line:  rgba(247, 206, 85, 0.55);
+  --gold-soft:  rgba(247, 206, 85, 0.15);
+  --gold-grad:  linear-gradient(160deg, var(--gold-hi) 0%, var(--gold) 38%, var(--gold-2) 72%, var(--gold-deep) 100%);
+
+  /* ── Cream ball / tile face (unchosen numbers) ───────────────────────────── */
+  --tile:       #F3EFE6;
+  --tile-edge:  #CFC7B4;
+  --tile-ink:   #1B140F;
+
+  /* ── Text on the red world ───────────────────────────────────────────────── */
+  --lot-text:   #FFF4F2;
+  --lot-text-2: #F0B9B4;
+  --lot-text-3: #C98A88;
+
+  /* ── Glossy black jackpot panel ──────────────────────────────────────────── */
+  --panel-top:  #24201B;
+  --panel-bot:  #0C0A08;
+  --panel-num:  #F6F1E6; /* brushed-silver number text */
+
+  /* Ink for text on a bright gold / cream fill. White fails AA there. */
+  --ink-bright:      #2A1704;
+  --ink-bright-line: rgba(42, 23, 4, 0.26);
+
+  /* Rounded display face for the jackpot figure only. Baloo 2 ExtraBold, subset
+     to digits + separators (2.8KB), so the prize reads as a friendly, chunky
+     lottery number rather than the UI sans. */
+  --f-round: 'Baloo Digits', var(--f-sans);
+
+  /* Semantics still come from tokens where they carry catalog-wide meaning. */
+  --win:    var(--c-win);
+  --danger: var(--c-lose);
+}
+
+@font-face {
+  font-family: 'Baloo Digits';
+  src: url('/fonts/baloo-digits.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* The page behind the screen matches the hall's deepest maroon, so overscroll
+   and safe-area gutters never flash a foreign near-black. */
+body {
+  background: #4a0606;
+}
+
+/* Screen frame — the red hall from the Pencil "Lottery 42" frame: a single
+   radial wash, bright at the centre, deepening to maroon at the edges. The
+   column scrolls when it must; the action zone is sticky at the bottom. */
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: var(--lot-text);
+  background: radial-gradient(110% 90% at 50% 42%, #B01818 0%, #8A0F0F 55%, #4A0606 100%) fixed;
+}
+
+/* ── shared primitives ─────────────────────────────────────────────────────── */
+
+/* Small spaced-caps label. One rule, so every label on the screen matches. */
+.label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lot-text-3);
+  line-height: 1;
+}
+
+/* The mock's gold gradient (#FCEEBE→#DBB65B), used for every prize figure. */
+.gold-grad-text {
+  background: linear-gradient(180deg, #fceebe 0%, #dbb65b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gold-foil text, used only for prize figures. */
+.gold-text {
+  background: var(--gold-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid rgba(247, 206, 85, 0.25);
+  border-top-color: var(--gold);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    animation-duration: 2s;
+  }
+}

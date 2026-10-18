@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 110" width="240" height="110">
+  <!--
+    TeleFly flight mark. A folded paper dart, nose right, built from four flat
+    facets so it stays crisp at any size and rotates without reading as clip art.
+    Hues match the brand tokens: #2A9FE8 brand, #7FD8FF trail edge.
+  -->
+  <defs>
+    <linearGradient id="tf-top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BEEBFF"/>
+      <stop offset="1" stop-color="#4FB6F0"/>
+    </linearGradient>
+    <linearGradient id="tf-bottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A9FE8"/>
+      <stop offset="1" stop-color="#12557F"/>
+    </linearGradient>
+  </defs>
+
+  <!-- lower facet, in shadow -->
+  <path d="M234 55 L92 93 L40 64 L124 55 Z" fill="url(#tf-bottom)"/>
+  <!-- upper facet, catching the light -->
+  <path d="M234 55 L92 17 L40 46 L124 55 Z" fill="url(#tf-top)"/>
+  <!-- centre fold, the deepest plane of the fuselage -->
+  <path d="M124 55 L40 46 L40 64 Z" fill="#0D3A5B"/>
+  <!-- leading edge: the one bright line that gives the mark direction -->
+  <path d="M234 55 L92 17" stroke="#EAF8FF" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- nose glint -->
+  <path d="M234 55 L188 42 L190 55 Z" fill="#FFFFFF" opacity="0.85"/>
+</svg>

@@ -1,0 +1,35 @@
+provably-fair-games
+Copyright 2026 Nekbakht Zabirov
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It includes the following third-party assets, which remain under their own
+licenses:
+
+1. Geist and Geist Mono fonts
+   Files:   catalog/*/public/fonts/geist-var.woff2,
+            catalog/*/public/fonts/geist-mono-var.woff2
+   Source:  https://github.com/vercel/geist-font
+   Copyright 2024 The Geist Project Authors
+   License: SIL Open Font License, Version 1.1 (see LICENSES/OFL-1.1.txt)
+
+2. Baloo 2 ExtraBold, digits-only subset ("Baloo Digits")
+   File:    catalog/lottery/public/fonts/baloo-digits.woff2
+   Source:  https://github.com/EkType/Baloo2
+   Copyright 2019 The Baloo 2 Project Authors
+   License: SIL Open Font License, Version 1.1 (see LICENSES/OFL-1.1.txt)
+
+3. "Airplane Prop Loop" sound effect
+   File:    catalog/telefly/public/sfx/engine.ogg
+   Author:  AntumDeluge (edit of work by jakobthiesen), via OpenGameArt.org
+   Source:  https://opengameart.org/content/airplane-prop-loop
+   License: Creative Commons Attribution 3.0 (CC BY 3.0),
+            https://creativecommons.org/licenses/by/3.0/
+   See also catalog/telefly/public/sfx/CREDITS.md.
+
+AI-generated artwork
+
+The background images catalog/*/public/bg.webp and catalog/*/public/env.webp
+were created with AI image-generation tools. They are distributed with this
+project under the same terms as the rest of the project, to the extent any
+rights in them exist.

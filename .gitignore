@@ -1,0 +1,29 @@
+# Gradle / JVM
+.gradle/
+build/
+*.iml
+
+# IDE
+.idea/
+*.ipr
+*.iws
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Local env / secrets
+.env
+*.local
+
+# Tooling artifacts
+.playwright-mcp/
+
+# Node (frontend projects also keep their own .gitignore)
+node_modules/
+
+# Local dev override: ports differ per machine. Not a fact about the project.
+docker-compose.override.yml
