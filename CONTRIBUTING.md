@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in improving provably-fair-games.
+Thanks for your interest in improving Provably Fair Casino Games.
 
 > **Documentation rule.** Every change that affects behaviour, configuration, API, build or deployment MUST
 > update `README.md` and the relevant pages in `docs/wiki/` in the same commit / pull request. A change is not

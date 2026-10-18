@@ -1,4 +1,4 @@
-<h1 align="center">provably-fair-games</h1>
+<h1 align="center">Provably Fair Casino Games</h1>
 
 <p align="center">
   Self-hosted provably fair casino games - Mines, Crash, Plinko, Lottery and more - verifiable on the TON blockchain.
@@ -7,7 +7,7 @@
 <p align="center">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
   <img alt="Kotlin on JVM 21" src="https://img.shields.io/badge/Kotlin-JVM%2021-7F52FF?logo=kotlin&logoColor=white">
-  <a href="https://github.com/nekzabirov/provably-fair-games/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/nekzabirov/provably-fair-games/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/nekzabirov/Provably-Fair-Casino-Games/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/nekzabirov/Provably-Fair-Casino-Games/actions/workflows/ci.yml/badge.svg"></a>
 </p>
 
 ---
@@ -81,7 +81,7 @@ engine asks the operator's `/player` webhook who the token belongs to. The playe
 browser opens a game client with that token and plays over a WebSocket. Every stake and
 payout is executed by the operator through the webhook; the engine keeps a ledger of
 rounds and transactions in PostgreSQL. More in the
-[Architecture](https://github.com/nekzabirov/provably-fair-games/wiki/Architecture) wiki page.
+[Architecture](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki/Architecture) wiki page.
 
 ## Quick start
 
@@ -89,8 +89,8 @@ Requirements: Docker with Compose, and internet access from the engine container
 reads TON block hashes from `https://toncenter.com/api/v2` by default).
 
 ```bash
-git clone https://github.com/nekzabirov/provably-fair-games.git
-cd provably-fair-games
+git clone https://github.com/nekzabirov/Provably-Fair-Casino-Games.git
+cd Provably-Fair-Casino-Games
 docker compose up --build
 ```
 
@@ -117,7 +117,7 @@ Open a game with that token:
 | Lottery 6/49 | `http://localhost:8087/?sessionToken=<token>&currency=TON&operator=demo-operator` |
 
 The demo player starts with 1000 TON. See
-[Getting Started](https://github.com/nekzabirov/provably-fair-games/wiki/Getting-Started)
+[Getting Started](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki/Getting-Started)
 for running without Docker.
 
 ## Configuration
@@ -166,7 +166,7 @@ All have defaults suitable for local development.
 
 Web clients read build-time variables (`VITE_WS_URL`, `VITE_API_BASE`,
 `VITE_AVATAR_PROXY_URL`) and the example operator has its own settings; see
-[Configuration](https://github.com/nekzabirov/provably-fair-games/wiki/Configuration).
+[Configuration](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki/Configuration).
 
 ## API overview
 
@@ -181,8 +181,8 @@ Web clients read build-time variables (`VITE_WS_URL`, `VITE_API_BASE`,
 | Webhook (engine to operator) | `POST {webhookUrl}/player`, `/balance`, `/round/open`, `/round/close`, `/debit`, `/credit` | `X-Secret-Key` | Player info and money movement. |
 
 There is no gRPC interface. Full reference:
-[API](https://github.com/nekzabirov/provably-fair-games/wiki/API) and
-[Operator Integration](https://github.com/nekzabirov/provably-fair-games/wiki/Operator-Integration).
+[API](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki/API) and
+[Operator Integration](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki/Operator-Integration).
 
 ## Project structure
 
@@ -217,12 +217,12 @@ cd catalog/mines && npm ci && npm run type-check && npm run build
 ```
 
 The engine has no automated test suite yet. See
-[Development](https://github.com/nekzabirov/provably-fair-games/wiki/Development).
+[Development](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki/Development).
 
 ## Documentation
 
 The full documentation lives in the
-[Wiki](https://github.com/nekzabirov/provably-fair-games/wiki): Getting Started,
+[Wiki](https://github.com/nekzabirov/Provably-Fair-Casino-Games/wiki): Getting Started,
 Configuration, Architecture, API, Games, Provably Fair, Operator Integration,
 Web Clients, Deployment and Development.
 

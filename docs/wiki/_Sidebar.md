@@ -1,4 +1,4 @@
-**provably-fair-games**
+**Provably Fair Casino Games**
 
 - [Home](Home)
 - [Getting Started](Getting-Started)

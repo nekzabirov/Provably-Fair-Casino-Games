@@ -14,7 +14,7 @@
 # .public/ directory; that directory is not part of the published snapshot.
 set -euo pipefail
 
-PUBLIC_REPO=nekzabirov/provably-fair-games
+PUBLIC_REPO=nekzabirov/Provably-Fair-Casino-Games
 AUTHOR_NAME="Nekbakht Zabirov"
 AUTHOR_EMAIL="17720956+nekzabirov@users.noreply.github.com"
 

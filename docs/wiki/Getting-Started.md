@@ -10,8 +10,8 @@ access to `https://toncenter.com` (the public TON seed); see [Configuration](Con
 to point it elsewhere.
 
 ```bash
-git clone https://github.com/nekzabirov/provably-fair-games.git
-cd provably-fair-games
+git clone https://github.com/nekzabirov/Provably-Fair-Casino-Games.git
+cd Provably-Fair-Casino-Games
 docker compose up --build
 ```
 

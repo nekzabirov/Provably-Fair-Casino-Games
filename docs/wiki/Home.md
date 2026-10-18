@@ -1,4 +1,4 @@
-# provably-fair-games
+# Provably Fair Casino Games
 
 Self-hosted provably fair casino games - Mines, Crash, Plinko, Lottery and more -
 verifiable on the TON blockchain.

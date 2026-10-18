@@ -1,5 +1,5 @@
 # Builds the engine from source and runs it on a slim JRE.
-#   docker build -t provably-fair-games .
+#   docker build -t provably-fair-casino-games .
 FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /src
